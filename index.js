@@ -74,9 +74,18 @@ const servidores = [
   }
 ];
 
+const servidoresTeste = [
+  {
+    ip: '169.57.141.90',
+    host: '10.151.13.113',
+    username: 'admin',
+    password: 'lX^SSOiI#vXZ'
+  }
+];
+
 async function main() {
   connectDB();
-  
+
   await Domain.deleteMany({})
   console.log(`Limpando o banco de dados...`);
 
