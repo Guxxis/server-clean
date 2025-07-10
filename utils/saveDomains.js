@@ -1,7 +1,7 @@
 // utils/saveDomains.js
-import Domain from '../src/models/Domain.js';
+const Domain = require('../src/models/Domain.js');
 
-export async function saveDomainsToMongo(paths = [], server_ip) {
+async function saveDomainsToMongo(paths = [], server_ip) {
   const insertPromises = [];
 
   for (const path of paths) {
@@ -32,3 +32,5 @@ export async function saveDomainsToMongo(paths = [], server_ip) {
   await Promise.all(insertPromises);
   console.log(`${insertPromises.length} domínios inseridos ou atualizados com sucesso.`);
 }
+
+module.exports = {saveDomainsToMongo};
