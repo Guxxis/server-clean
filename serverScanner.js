@@ -11,9 +11,9 @@ async function scanServer(serverConfig) {
       port: serverConfig.port || 22
     });
 
-    console.log(`Conectado ao servidor ${serverConfig.host}`);
+    console.log(`Conectado ao servidor ${serverConfig.ip}`);
 
-    const command = 'ls -d domains/*/';
+    const command = 'ls -d /home/*/web/*';
     const result = await ssh.execCommand(command);
 
     if (result.stderr) {
@@ -26,7 +26,7 @@ async function scanServer(serverConfig) {
       .map(linha => linha.trim())
       .filter(Boolean);
 
-    console.log(`Domínios encontrados em ${serverConfig.host}:`, domínios);
+    // console.log(`Domínios encontrados em ${serverConfig.host}:`, domínios);
 
     ssh.dispose(); // desconecta
 

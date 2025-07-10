@@ -6,7 +6,7 @@ async function saveDomainsToMongo(paths = [], server_ip) {
 
   for (const path of paths) {
     const parts = path.split('/');
-    
+
     if (parts.length < 5) continue; // proteção contra erros
 
     const server_user = parts[2]; // /home/user/web/domain
@@ -20,17 +20,11 @@ async function saveDomainsToMongo(paths = [], server_ip) {
       // os outros campos ficarão nulos por padrão
     };
 
-    insertPromises.push(
-      Domain.updateOne(
-        { server_domain }, // evita duplicidade
-        { $set: doc },
-        { upsert: true }
-      )
-    );
+    insertPromises.push(Domain.insertOne(doc));
   }
 
   await Promise.all(insertPromises);
-  console.log(`${insertPromises.length} domínios inseridos ou atualizados com sucesso.`);
+  console.log(`${insertPromises.length} domínios inseridos com sucesso.`);
 }
 
-module.exports = {saveDomainsToMongo};
+module.exports = { saveDomainsToMongo };
