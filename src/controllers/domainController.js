@@ -38,3 +38,12 @@ exports.getDomain = async (req, res) => {
         res.status(500).json({ error: error.message });
     };
 }
+
+exports.deleteAll = async (req, res) => {
+    try {
+        await Domain.deleteMany({});
+        res.status(200);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    };
+}
