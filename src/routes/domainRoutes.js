@@ -1,6 +1,6 @@
 const express = require('express');
-const domainController = require('../controllers/domainController.js');
 const router = express.Router();
+const domainController = require('../controllers/domainController.js');
 
 router.post('/domains', domainController.creat);
 router.get('/domains', domainController.getAll);

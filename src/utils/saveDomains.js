@@ -1,5 +1,5 @@
 // utils/saveDomains.js
-const Domain = require('../src/models/Domain.js');
+const Domain = require('../models/Domain.js');
 
 const fileIgnore = ['contato', 'old', 'tmp', 'public_html', 'backamerican', 'teste', 'pplinetestadmin'];
 const extIgnore = ['.tar.gz', '.php', '.sh', '.txt', '.sql'];

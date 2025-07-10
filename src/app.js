@@ -1,18 +1,16 @@
 const express = require('express');
-const connectDB = require('./config/database.js');
+const dotenv = require('dotenv');
+const database = require('./config/database.js');
 const routes = require('./routes/index.js');
 
-require('dotenv').config();
-
-connectDB();
+dotenv.config();
+database.connectDB();
 
 const app = express();
 routes(app);
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT,() =>{
     console.log(`Servidor rodando na porta ${PORT}`);
 });
-
-// module.exports = app;

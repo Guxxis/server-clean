@@ -1,6 +1,12 @@
-// serverScanner.js
+const { scanServer } = require('./scripts/serverScanner.js');
+const { saveDomainsToMongo } = require('./utils/saveDomains.js');
+const database = require('./src/config/database.js');
+const Domain = require('./src/models/Domain.js');
+const mongoose = require('mongoose');
 const { NodeSSH } = require('node-ssh');
 const ssh = new NodeSSH();
+
+require('dotenv').config();
 
 async function scanServer(serverConfig) {
   try {
@@ -37,4 +43,27 @@ async function scanServer(serverConfig) {
   }
 }
 
-module.exports = { scanServer };
+const servidoresTeste = [
+    {
+        ip: '169.57.141.90',
+        host: '10.151.13.113',
+        username: 'admin',
+        password: 'lX^SSOiI#vXZ'
+    }
+];
+
+async function main() {
+  database.connectDB();
+
+  await Domain.deleteMany({})
+  console.log(`Limpando o banco de dados...`);
+
+  for (const server of servidoresTeste) {
+    const dominios = await scanServer(server);
+
+    await saveDomainsToMongo(dominios, server.ip);
+  }
+  database.disconnectDB();
+};
+
+main();
