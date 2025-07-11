@@ -12,7 +12,7 @@ const domainSchema = new mongoose.Schema({
   sense_stage: { type: String, default: null },
   sense_name: { type: String, default: null },
   production_ip: { type: String, default: null },
-  ssl_expiration: { type: Int16Array, default: null },
+  ssl_days: { type: Number, default: null },
 }, { timestamps: true });
 
 

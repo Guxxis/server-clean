@@ -1,7 +1,6 @@
 const { saveDomainsToMongo } = require('../src/utils/saveDomains.js');
 const database = require('../src/config/database.js');
 const Domain = require('../src/models/Domain.js');
-const mongoose = require('mongoose');
 const { NodeSSH } = require('node-ssh');
 const ssh = new NodeSSH();
 
