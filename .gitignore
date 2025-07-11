@@ -37,6 +37,7 @@ build/
 *.db
 dump.rdb
 *.tgz
+*.csv
 
 # Arquivos do Git
 *.orig
