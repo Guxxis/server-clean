@@ -22,7 +22,7 @@ async function main() {
 
             await Domain.updateOne(
                 { server_domain: domain },
-                { $set: { ssl_expiration: sslValid } }
+                { $set: { ssl_days: sslValid } }
             );
 
             sslChecked.push(res);
