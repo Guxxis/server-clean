@@ -1,4 +1,4 @@
-import { saveDomainsToMongo } from '../src/utils/saveDomains.js';
+import saveDomains from '../src/utils/saveDomains.js';
 import { domain } from '../src/models/Domain.js';
 import { NodeSSH } from 'node-ssh';
 
@@ -115,9 +115,9 @@ async function serverScanner() {
   console.log(`Scaneando os servidores...`);
   for (const server of servidores) {
     const dominios = await scanServer(server);
-    await saveDomainsToMongo(dominios, server.ip);
+    await saveDomains(dominios, server.ip);
   }
   console.timeEnd('Server Scanner');
 };
 
-export default serverScanner();
+export default serverScanner;

@@ -31,4 +31,4 @@ async function saveDomainsToMongo(paths = [], server_ip) {
   console.log(`domínios salvos: ${insertPromises.length}`);
 }
 
-export default { saveDomainsToMongo };
+export default saveDomainsToMongo;
