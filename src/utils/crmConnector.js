@@ -1,6 +1,7 @@
-const axios = require('axios');
-const BASE_URL = 'https://api.sensedata.io/v2/customers';
+import axios from 'axios';
+
 const LIMIT = 500;
+const BASE_URL = 'https://api.sensedata.io/v2/customers';
 
 async function getActiveCustomers() {
 
@@ -29,4 +30,4 @@ async function getActiveCustomers() {
     return customersArray;
 }
 
-module.exports = { getActiveCustomers };
+export default getActiveCustomers;

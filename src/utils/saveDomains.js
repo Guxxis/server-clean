@@ -1,5 +1,4 @@
-// utils/saveDomains.js
-const Domain = require('../models/Domain.js');
+import { domain } from '../models/Domain.js';
 
 const fileIgnore = ['contato', 'old', 'tmp', 'public_html', 'backamerican', 'teste', 'pplinetestadmin'];
 const extIgnore = ['.tar.gz', '.php', '.sh', '.txt', '.sql'];
@@ -25,11 +24,11 @@ async function saveDomainsToMongo(paths = [], server_ip) {
       server_suspended: false,
     };
 
-    insertPromises.push(Domain.insertOne(doc));
+    insertPromises.push(domain.insertOne(doc));
   }
 
   await Promise.all(insertPromises);
   console.log(`domínios salvos: ${insertPromises.length}`);
 }
 
-module.exports = { saveDomainsToMongo };
+export default { saveDomainsToMongo };

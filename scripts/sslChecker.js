@@ -2,14 +2,12 @@ import sslChecker from 'ssl-checker';
 import { domain } from '../src/models/Domain.js';
 import pLimit from 'p-limit';
 
-const limit = pLimit(10);
-
+const limit = pLimit(12);
 
 async function checkSSL(domainObj) {
     const domainRoot = domainObj.server_domain;
 
     try {
-
         const res = await sslChecker(domainRoot);
         const sslDays = res.daysRemaining;
         const sslValid = res.validTo;
@@ -25,13 +23,9 @@ async function checkSSL(domainObj) {
                 }
             }
         );
-
         return { domainRoot, status: 'ok' };
 
     } catch (err) {
-
-        console.warn(`Erro ao checar SSL de ${domainRoot}: ${err.message}`);
-
         await domain.updateOne(
             { server_domain: domainRoot },
             { $set: { ssl_days: 0 } }

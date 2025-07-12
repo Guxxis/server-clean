@@ -1,11 +1,8 @@
-const { saveDomainsToMongo } = require('../src/utils/saveDomains.js');
-// const database = require('../src/config/database.js');
-const Domain = require('../src/models/Domain.js');
-// const servers = require('../src/config/servers.js');
-const { NodeSSH } = require('node-ssh');
-const ssh = new NodeSSH();
+import { saveDomainsToMongo } from '../src/utils/saveDomains.js';
+import { domain } from '../src/models/Domain.js';
+import { NodeSSH } from 'node-ssh';
 
-// require('dotenv').config();
+const ssh = new NodeSSH();
 
 async function scanServer(serverConfig) {
   try {
@@ -112,19 +109,15 @@ const servidores = [
 async function serverScanner() {
   console.time('Server Scanner');
   console.log(`Server Scanner > Iniciado`);
-
-  // database.connectDB();
   console.log(`Limpando dados do banco...`);
-  await Domain.deleteMany({})
+  await domain.deleteMany({})
 
   console.log(`Scaneando os servidores...`);
   for (const server of servidores) {
     const dominios = await scanServer(server);
-
     await saveDomainsToMongo(dominios, server.ip);
   }
   console.timeEnd('Server Scanner');
-  // database.disconnectDB();
 };
 
-module.exports = serverScanner;
+export default serverScanner();

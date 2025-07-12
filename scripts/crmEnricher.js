@@ -1,32 +1,25 @@
-// const database = require('../src/config/database.js');
-const Domain = require('../src/models/Domain.js');
-// const dotenv = require('dotenv');
-const { getActiveCustomers } = require('../src/utils/crmConnector.js')
-
-// dotenv.config();
+import { domain } from '../src/models/Domain.js';
+import getCustomers from '../src/utils/crmConnector.js';
 
 async function crmEnricher() {
 
-    console.time('CRM Enricher')
+    console.time('CRM Enricher');
     console.log(`CRM Enricher > Iniciado`);
 
     console.log(`Buscando Clientes...`);
-    const customers = await getActiveCustomers();
+    const customers = await getCustomers();
     console.log(`Total de clientes ativos encontrados: ${customers.length}`);
-    
-    
-    // database.connectDB();
-    
+
     console.log(`Atualizando dominios com CRM...`);
     for (const customer of customers) {
-        const domain = customer.custom_fields.dominio?.value || '';
-        const rootDomain = domain.replace(/^www\./, '');
-        
+        const crmDomain = customer.custom_fields.dominio?.value || '';
+        const rootDomain = crmDomain.replace(/^www\./, '');
+
         const senseServer = customer.custom_fields.servidor_hospedado?.value || '';
         const senseIp = Array.isArray(senseServer) ? senseServer[0] : senseServer;
-        
+
         try {
-            await Domain.updateOne(
+            await domain.updateOne(
                 { server_domain: rootDomain },
                 {
                     $set: {
@@ -39,13 +32,12 @@ async function crmEnricher() {
                 },
                 { upsert: false }
             );
-            
+
         } catch (erro) {
             console.log(`Falha ao atualizar dominio > ${rootDomain}`);
         }
     }
     console.timeEnd('CRM Enricher')
-    // database.disconnectDB();
 }
 
-module.exports = crmEnricher;
+export default crmEnricher;
