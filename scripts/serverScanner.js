@@ -1,10 +1,11 @@
 const { saveDomainsToMongo } = require('../src/utils/saveDomains.js');
-const database = require('../src/config/database.js');
+// const database = require('../src/config/database.js');
 const Domain = require('../src/models/Domain.js');
+// const servers = require('../src/config/servers.js');
 const { NodeSSH } = require('node-ssh');
 const ssh = new NodeSSH();
 
-require('dotenv').config();
+// require('dotenv').config();
 
 async function scanServer(serverConfig) {
   try {
@@ -39,31 +40,91 @@ async function scanServer(serverConfig) {
   }
 }
 
-const servidoresTeste = [
+const servidores = [
   {
     ip: '169.57.141.90',
     host: '10.151.13.113',
     username: 'admin',
     password: 'lX^SSOiI#vXZ'
+  },
+  {
+    ip: '169.57.169.70',
+    host: '10.151.13.73',
+    username: 'admin',
+    password: '!eGcRzX^&SQy'
+  },
+  {
+    ip: '169.57.169.72',
+    host: '10.151.13.95',
+    username: 'admin',
+    password: 'rk*6jF5E%Kj@'
+  },
+  {
+    ip: '169.57.141.85',
+    host: '10.151.13.112',
+    username: 'admin',
+    password: 'C9xejuL#7%5D'
+  },
+  {
+    ip: '169.57.169.85',
+    host: '10.151.13.83',
+    username: 'admin',
+    password: 'pD4O&WMtCfB&'
+  },
+  {
+    ip: '169.57.169.91',
+    host: '10.151.13.109',
+    username: 'admin',
+    password: 'tZBfsXdR^wE&'
+  },
+  {
+    ip: '169.57.141.94',
+    host: '10.151.13.89',
+    username: 'admin',
+    password: '62OnBDcbYB'
+  },
+  {
+    ip: '169.57.169.74',
+    host: '10.151.13.80',
+    username: 'admin',
+    password: 'vURN1MCLmJ'
+  },
+  {
+    ip: '169.57.169.83',
+    host: '10.151.13.105',
+    username: 'admin',
+    password: 'j7w2rmVYXC'
+  },
+  {
+    ip: '169.57.169.77',
+    host: '10.151.13.120',
+    username: 'admin',
+    password: 'CtLDu8P38Q'
+  },
+  {
+    ip: '169.57.169.73',
+    host: '10.151.13.110',
+    username: 'admin',
+    password: 'b@ZaW$z@yzBX'
   }
 ];
 
-async function main() {
+async function serverScanner() {
   console.time('Server Scanner');
   console.log(`Server Scanner > Iniciado`);
 
-  database.connectDB();
+  // database.connectDB();
   console.log(`Limpando dados do banco...`);
   await Domain.deleteMany({})
 
   console.log(`Scaneando os servidores...`);
-  for (const server of servidoresTeste) {
+  for (const server of servidores) {
     const dominios = await scanServer(server);
 
     await saveDomainsToMongo(dominios, server.ip);
   }
   console.timeEnd('Server Scanner');
-  database.disconnectDB();
+  // database.disconnectDB();
 };
 
-main();
+module.exports = serverScanner;

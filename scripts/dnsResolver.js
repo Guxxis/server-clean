@@ -1,15 +1,15 @@
 const dns = require('node:dns').promises;
-const database = require('../src/config/database.js');
+// const database = require('../src/config/database.js');
 const Domain = require('../src/models/Domain.js');
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 
-dotenv.config();
+// dotenv.config();
 
-async function main() {
+async function dnsResolver() {
 
     console.time('DNS Resolver');
     console.log(`DNS Resolver > Iniciado`);
-    database.connectDB();
+    // database.connectDB();
     
     const domains = await Domain.find({});
     const dnsResolved = [];
@@ -40,9 +40,8 @@ async function main() {
 
     console.log(`Total Atualizado: ${dnsResolved.length}`);
     console.timeEnd('DNS Resolver');
-    database.disconnectDB();
+    // database.disconnectDB();
 
 }
 
-main()
-
+module.exports = dnsResolver;

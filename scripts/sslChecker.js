@@ -1,15 +1,15 @@
 const sslChecker = require('ssl-checker');
-const database = require('../src/config/database.js');
+// const database = require('../src/config/database.js');
 const Domain = require('../src/models/Domain.js');
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 
-dotenv.config();
+// dotenv.config();
 
-async function main() {
+async function sslResolve() {
 
     console.time('SSL Checker');
     console.log(`SSL Checker > Iniciado`);
-    database.connectDB();
+    // database.connectDB();
 
     const domains = await Domain.find({});
     const sslChecked = [];
@@ -49,8 +49,8 @@ async function main() {
     console.log(`Total Atualizado: ${sslChecked.length}`);
 
     console.timeEnd('SSL Checker');
-    database.disconnectDB();
+    // database.disconnectDB();
 
 }
 
-main()
+module.exports = sslResolve;

@@ -1,11 +1,11 @@
-const database = require('../src/config/database.js');
+// const database = require('../src/config/database.js');
 const Domain = require('../src/models/Domain.js');
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 const { getActiveCustomers } = require('../src/utils/crmConnector.js')
 
-dotenv.config();
+// dotenv.config();
 
-async function main() {
+async function crmEnricher() {
 
     console.time('CRM Enricher')
     console.log(`CRM Enricher > Iniciado`);
@@ -15,14 +15,14 @@ async function main() {
     console.log(`Total de clientes ativos encontrados: ${customers.length}`);
     
     
-    database.connectDB();
+    // database.connectDB();
     
     console.log(`Atualizando dominios com CRM...`);
     for (const customer of customers) {
-        const domain = customer.custom_fields.dominio?.value || 'Vazio';
+        const domain = customer.custom_fields.dominio?.value || '';
         const rootDomain = domain.replace(/^www\./, '');
         
-        const senseServer = customer.custom_fields.servidor_hospedado?.value || 'Vazio';
+        const senseServer = customer.custom_fields.servidor_hospedado?.value || '';
         const senseIp = Array.isArray(senseServer) ? senseServer[0] : senseServer;
         
         try {
@@ -45,7 +45,7 @@ async function main() {
         }
     }
     console.timeEnd('CRM Enricher')
-    database.disconnectDB();
+    // database.disconnectDB();
 }
 
-main()
+module.exports = crmEnricher;
