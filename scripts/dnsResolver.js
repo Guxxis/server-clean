@@ -7,6 +7,7 @@ dotenv.config();
 
 async function main() {
 
+    console.time('DNS Resolver');
     console.log(`DNS Resolver > Iniciado`);
     database.connectDB();
     
@@ -38,7 +39,7 @@ async function main() {
     }
 
     console.log(`Total Atualizado: ${dnsResolved.length}`);
-
+    console.timeEnd('DNS Resolver');
     database.disconnectDB();
 
 }

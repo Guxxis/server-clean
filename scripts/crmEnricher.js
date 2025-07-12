@@ -7,6 +7,7 @@ dotenv.config();
 
 async function main() {
 
+    console.time('CRM Enricher')
     console.log(`CRM Enricher > Iniciado`);
 
     console.log(`Buscando Clientes...`);
@@ -42,12 +43,9 @@ async function main() {
         } catch (erro) {
             console.log(`Falha ao atualizar dominio > ${rootDomain}`);
         }
-        
     }
-    
+    console.timeEnd('CRM Enricher')
     database.disconnectDB();
-    console.log(`CRM Enricher > Finalizado`);
-    
 }
 
 main()

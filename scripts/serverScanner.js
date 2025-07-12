@@ -49,18 +49,20 @@ const servidoresTeste = [
 ];
 
 async function main() {
+  console.time('Server Scanner');
   console.log(`Server Scanner > Iniciado`);
-  
+
   database.connectDB();
   console.log(`Limpando dados do banco...`);
   await Domain.deleteMany({})
-  
+
+  console.log(`Scaneando os servidores...`);
   for (const server of servidoresTeste) {
     const dominios = await scanServer(server);
-    
+
     await saveDomainsToMongo(dominios, server.ip);
   }
-
+  console.timeEnd('Server Scanner');
   database.disconnectDB();
 };
 

@@ -7,6 +7,7 @@ dotenv.config();
 
 async function main() {
 
+    console.time('SSL Checker');
     console.log(`SSL Checker > Iniciado`);
     database.connectDB();
 
@@ -40,13 +41,14 @@ async function main() {
         } catch (err) {
             await Domain.updateOne(
                 { server_domain: domain },
-                { $set: { ssl_days: 'Falha ao resolver' } }
+                { $set: { ssl_days: 0 } }
             );
         }
     }
 
     console.log(`Total Atualizado: ${sslChecked.length}`);
 
+    console.timeEnd('SSL Checker');
     database.disconnectDB();
 
 }
