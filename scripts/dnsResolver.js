@@ -7,11 +7,13 @@ dotenv.config();
 
 async function main() {
 
+    console.log(`DNS Resolver > Iniciado`);
     database.connectDB();
-
+    
     const domains = await Domain.find({});
     const dnsResolved = [];
-
+    
+    console.log(`Buscando DNS dos dominios...`);
     for (const item of domains) {
         const domain = item.server_domain;
 
@@ -28,7 +30,6 @@ async function main() {
             dnsResolved.push(res);
 
         } catch (err) {
-            console.log(`❌ Falha ao resolver ${domain}`);
             await Domain.updateOne(
                 { server_domain: domain },
                 { $set: { production_ip: 'Falha ao resolver' } }

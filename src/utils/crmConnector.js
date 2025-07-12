@@ -26,8 +26,6 @@ async function getActiveCustomers() {
         }
     }
 
-    console.log(`Total de clientes ativos: ${customersArray.length}`);
-
     return customersArray;
 }
 

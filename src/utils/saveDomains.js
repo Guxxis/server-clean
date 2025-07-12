@@ -29,7 +29,7 @@ async function saveDomainsToMongo(paths = [], server_ip) {
   }
 
   await Promise.all(insertPromises);
-  console.log(`${insertPromises.length} domínios inseridos com sucesso.`);
+  console.log(`domínios salvos: ${insertPromises.length}`);
 }
 
 module.exports = { saveDomainsToMongo };

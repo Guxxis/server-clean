@@ -10,9 +10,10 @@ const domainSchema = new mongoose.Schema({
   sense_contract: { type: String, default: null },
   sense_ip: { type: String, default: null },
   sense_stage: { type: String, default: null },
-  sense_name: { type: String, default: null },
   production_ip: { type: String, default: null },
   ssl_days: { type: Number, default: null },
+  ssl_expirate: { type: Date, default: null },
+  ssl_validFor: { type: Array, default: null },
 }, { timestamps: true });
 
 

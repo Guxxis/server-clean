@@ -15,7 +15,7 @@ async function scanServer(serverConfig) {
       port: serverConfig.port || 22
     });
 
-    console.log(`Conectado ao servidor ${serverConfig.ip}`);
+    console.log(`Conectado ao servidor > ${serverConfig.ip}`);
 
     const command = 'ls -d /home/*/web/*';
     const result = await ssh.execCommand(command);
@@ -30,9 +30,7 @@ async function scanServer(serverConfig) {
       .map(linha => linha.trim())
       .filter(Boolean);
 
-    // console.log(`Domínios encontrados em ${serverConfig.host}:`, domínios);
-
-    ssh.dispose(); // desconecta
+    ssh.dispose();
 
     return domínios;
   } catch (error) {
@@ -42,25 +40,27 @@ async function scanServer(serverConfig) {
 }
 
 const servidoresTeste = [
-    {
-        ip: '169.57.141.90',
-        host: '10.151.13.113',
-        username: 'admin',
-        password: 'lX^SSOiI#vXZ'
-    }
+  {
+    ip: '169.57.141.90',
+    host: '10.151.13.113',
+    username: 'admin',
+    password: 'lX^SSOiI#vXZ'
+  }
 ];
 
 async function main() {
+  console.log(`Server Scanner > Iniciado`);
+  
   database.connectDB();
-
+  console.log(`Limpando dados do banco...`);
   await Domain.deleteMany({})
-  console.log(`Limpando o banco de dados...`);
-
+  
   for (const server of servidoresTeste) {
     const dominios = await scanServer(server);
-
+    
     await saveDomainsToMongo(dominios, server.ip);
   }
+
   database.disconnectDB();
 };
 
