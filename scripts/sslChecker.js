@@ -1,56 +1,64 @@
-const sslChecker = require('ssl-checker');
-// const database = require('../src/config/database.js');
-const Domain = require('../src/models/Domain.js');
-// const dotenv = require('dotenv');
+import sslChecker from 'ssl-checker';
+import { domain } from '../src/models/Domain.js';
+import pLimit from 'p-limit';
 
-// dotenv.config();
+const limit = pLimit(10);
+
+
+async function checkSSL(domainObj) {
+    const domainRoot = domainObj.server_domain;
+
+    try {
+
+        const res = await sslChecker(domainRoot);
+        const sslDays = res.daysRemaining;
+        const sslValid = res.validTo;
+        const sslFor = res.validFor;
+
+        await domain.updateOne(
+            { server_domain: domainRoot },
+            {
+                $set: {
+                    ssl_days: sslDays,
+                    ssl_expirate: sslValid,
+                    ssl_validFor: sslFor
+                }
+            }
+        );
+
+        return { domainRoot, status: 'ok' };
+
+    } catch (err) {
+
+        console.warn(`Erro ao checar SSL de ${domainRoot}: ${err.message}`);
+
+        await domain.updateOne(
+            { server_domain: domainRoot },
+            { $set: { ssl_days: 0 } }
+        );
+
+        return { domainRoot, status: 'erro', erro: err.message };
+    }
+};
 
 async function sslResolve() {
 
     console.time('SSL Checker');
     console.log(`SSL Checker > Iniciado`);
-    // database.connectDB();
 
-    const domains = await Domain.find({});
-    const sslChecked = [];
+    const domains = await domain.find({});
 
     console.log(`Validando o Certificado SSL dos dominios...`);
-    for (const item of domains) {
-        const domain = item.server_domain;
+    const sslPromises = domains.map(domain => limit(() => checkSSL(domain)));
+    const results = await Promise.all(sslPromises);
 
-        try {
+    const totalOK = results.filter(r => r.status === 'ok').length;
+    const totalErro = results.filter(r => r.status === 'erro').length;
 
-            const res = await sslChecker(domain);
-            const sslDays = res.daysRemaining;
-            const sslValid = res.daysRemaining;
-            const sslFor = res.daysRemaining;
-
-            await Domain.updateOne(
-                { server_domain: domain },
-                {
-                    $set: {
-                        ssl_days: sslDays,
-                        ssl_expirate: sslValid,
-                        ssl_validFor: sslFor
-                    }
-                }
-            );
-
-            sslChecked.push(res);
-
-        } catch (err) {
-            await Domain.updateOne(
-                { server_domain: domain },
-                { $set: { ssl_days: 0 } }
-            );
-        }
-    }
-
-    console.log(`Total Atualizado: ${sslChecked.length}`);
+    console.log(`✅ Atualizados: ${totalOK}`);
+    console.log(`❌ Falhas: ${totalErro}`);
 
     console.timeEnd('SSL Checker');
-    // database.disconnectDB();
-
 }
 
-module.exports = sslResolve;
+export default sslResolve;

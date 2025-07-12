@@ -1,7 +1,7 @@
-const database = require('../src/config/database.js');
-const Domain = require('../src/models/Domain.js');
-const dotenv = require('dotenv');
-const fs = require('fs');
+import database from '../src/config/database.js';
+import { domain } from '../src/models/Domain.js';
+import dotenv from 'dotenv';
+import fs from 'fs';
 
 dotenv.config();
 
@@ -9,7 +9,7 @@ async function main() {
 
     database.connectDB();
 
-    const domains = await Domain.find({});
+    const domains = await domain.find({});
 
     try {
         const csvData = jsonToCsv(domains);

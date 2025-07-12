@@ -2,6 +2,7 @@
   "name": "server-clean",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/app.js"
@@ -17,10 +18,12 @@
     "json2csv": "^6.0.0-alpha.2",
     "mongoose": "^8.16.2",
     "node-ssh": "^13.2.1",
+    "p-limit": "^6.2.0",
     "ssh2": "^1.16.0",
     "ssl-checker": "^2.0.10"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
   }
+
 }

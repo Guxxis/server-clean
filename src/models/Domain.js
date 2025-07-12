@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const domainSchema = new mongoose.Schema({
   server_ip: { type: String, required: true },
@@ -16,5 +16,7 @@ const domainSchema = new mongoose.Schema({
   ssl_validFor: { type: Array, default: null },
 }, { timestamps: true });
 
+const domain = mongoose.model("domains", domainSchema);
 
-module.exports = mongoose.model('Domain', domainSchema);
+
+export { domain, domainSchema };
