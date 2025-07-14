@@ -5,6 +5,7 @@
 - /domains
 - /domains/inProduction
 - /domains/inSuspension
+- /domains/inOnboarding
 - /domains/toRemove
 - /domains/toMoveWeb
 - /domains/toMoveUser
