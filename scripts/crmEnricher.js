@@ -1,5 +1,5 @@
 import { domain } from '../src/models/Domain.js';
-import getCustomers from '../src/utils/crmConnector.js';
+import getCustomers from '../src/services/crmConnector.js';
 
 async function crmEnricher() {
 

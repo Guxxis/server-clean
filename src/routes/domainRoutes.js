@@ -1,11 +1,8 @@
-const express = require('express');
+import express from 'express';
+import domainController from '../controllers/domainController.js';
+
 const router = express.Router();
-const domainController = require('../controllers/domainController.js');
 
-router.post('/domains', domainController.creat);
 router.get('/domains', domainController.getAll);
-router.get('/domains/busca', domainController.getDomain);
-router.get('/domains/:id', domainController.getId);
-router.delete('/domains', domainController.deleteAll);
 
-module.exports = router;
+export default router;

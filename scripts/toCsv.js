@@ -1,4 +1,4 @@
-import database from '../src/config/database.js';
+import database from '../config/database.js';
 import { domain } from '../src/models/Domain.js';
 import dotenv from 'dotenv';
 import fs from 'fs';

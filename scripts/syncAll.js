@@ -3,7 +3,7 @@ import fetchCRM from './crmEnricher.js';
 import fetchSuspended from './suspensionChecker.js';
 import updateDNS from './dnsResolver.js';
 import updateSSL from './sslChecker.js';
-import database from '../src/config/database.js';
+import database from '../config/database.js';
 import "dotenv/config";
 
 async function syncAll() {

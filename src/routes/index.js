@@ -1,5 +1,5 @@
-const express = require('express');
-const domains = require('./domainRoutes.js')
+import express from 'express';
+import domains from './domainRoutes.js';
 
 const routes = (app) => {
     app.route("/").get((req, res) => res.status(200).send("Server Clean Project!"));
@@ -7,4 +7,4 @@ const routes = (app) => {
     app.use(express.json(), domains);
 };
 
-module.exports = routes;
+export default routes;

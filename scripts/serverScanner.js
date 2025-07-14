@@ -1,4 +1,4 @@
-import saveDomains from '../src/utils/saveDomains.js';
+import saveDomains from '../src/services/saveDomains.js';
 import { domain } from '../src/models/Domain.js';
 import { NodeSSH } from 'node-ssh';
 
