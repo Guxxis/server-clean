@@ -3,14 +3,14 @@ import domainController from '../controllers/domainController.js';
 
 const router = express.Router();
 
-router.get('/dominios', domainController.dominiosTodos);
-router.get('/dominios/sitesProducao', domainController.dominiosProducao);
-router.get('/dominios/sitesSuspensos', domainController.dominiosSuspensos);
-router.get('/dominios/removerServidor', domainController.dominiosRemoverServidor);
-router.get('/dominios/moverWeb', domainController.dominiosMoverWeb);
-router.get('/dominios/moverUser', domainController.dominiosMoverUser);
-router.get('/dominios/corrigirSense', domainController.dominiosCorrigirSenseIp);
-router.get('/dominios/corrigirDns', domainController.dominiosCorrigirProductionIp);
-router.get('/dominios/poteOuro', domainController.dominiosPoteOuro);
+router.get('/domains', domainController.dominiosTodos);
+router.get('/domains/inProduction', domainController.dominiosProducao);
+router.get('/domains/inSuspension', domainController.dominiosSuspensos);
+router.get('/domains/toRemove', domainController.dominiosRemoverServidor);
+router.get('/domains/toMoveWeb', domainController.dominiosMoverWeb);
+router.get('/domains/toMoveUser', domainController.dominiosMoverUser);
+router.get('/domains/toFixCrm', domainController.dominiosCorrigirSenseIp);
+router.get('/domains/toFixDns', domainController.dominiosCorrigirProductionIp);
+router.get('/domains/poteOuro', domainController.dominiosPoteOuro);
 
 export default router;
