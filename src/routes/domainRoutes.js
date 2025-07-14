@@ -11,5 +11,6 @@ router.get('/dominios/moverWeb', domainController.dominiosMoverWeb);
 router.get('/dominios/moverUser', domainController.dominiosMoverUser);
 router.get('/dominios/corrigirSense', domainController.dominiosCorrigirSenseIp);
 router.get('/dominios/corrigirDns', domainController.dominiosCorrigirProductionIp);
+router.get('/dominios/poteOuro', domainController.dominiosPoteOuro);
 
 export default router;

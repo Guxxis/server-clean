@@ -79,7 +79,7 @@ class domainsController {
             const domains = await domain.find({
                 sense_status: true,
                 production_ip: { $in: ips },
-                $expr: {$ne: ['$production_ip', '$sense_ip']}
+                $expr: { $ne: ['$production_ip', '$sense_ip'] }
             });
             res.json(domains);
         } catch (error) {
@@ -92,6 +92,20 @@ class domainsController {
             const domains = await domain.find({
                 sense_status: true,
                 production_ip: { $nin: ips }
+            });
+            res.json(domains);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        };
+    };
+
+    static async dominiosPoteOuro(req, res) {
+        try {
+            const domains = await domain.find({
+                sense_status: false,
+                server_suspended: false,
+                server_user: {$nin: ['admin']},
+                production_ip: { $in: ips }
             });
             res.json(domains);
         } catch (error) {
