@@ -37,22 +37,20 @@ async function checkSSL(domainObj) {
 
 async function sslResolve() {
 
-    console.time('SSL Checker');
-    console.log(`SSL Checker > Iniciado`);
+    console.time('🕙 SSL Process');
 
     const domains = await domain.find({});
 
-    console.log(`Validando o Certificado SSL dos dominios...`);
+    console.log(`🔍 Validando o Certificado SSL dos dominios...`);
     const sslPromises = domains.map(domain => limit(() => checkSSL(domain)));
     const results = await Promise.all(sslPromises);
 
     const totalOK = results.filter(r => r.status === 'ok').length;
     const totalErro = results.filter(r => r.status === 'erro').length;
 
-    console.log(`✅ Atualizados: ${totalOK}`);
-    console.log(`❌ Falhas: ${totalErro}`);
+    console.log(`✅ Atualizados: ${totalOK} | ❌ Falhas: ${totalErro}`);
 
-    console.timeEnd('SSL Checker');
+    console.timeEnd('🕙 SSL Process');
 }
 
 export default sslResolve;

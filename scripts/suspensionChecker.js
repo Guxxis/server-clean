@@ -24,16 +24,15 @@ async function checkSuspension(domainDoc) {
 }
 
 async function suspensionChecker() {
-    console.log('🔎 Iniciando verificação de suspensão dos domínios...');
-    console.time('Suspension Check');
+    console.time('🕙 Suspended Process');
+    console.log('🔍 Iniciando verificação de suspensão dos domínios...');
 
     const domains = await domain.find({}, 'server_domain');
 
     const tasks = domains.map(d => limit(() => checkSuspension(d)));
     await Promise.all(tasks);
 
-    console.timeEnd('Suspension Check');
-    console.log('✅ Verificação de suspensão finalizada!');
+    console.timeEnd('🕙 Suspended Process');
 }
 
 export default suspensionChecker;

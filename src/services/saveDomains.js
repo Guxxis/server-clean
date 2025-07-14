@@ -28,7 +28,7 @@ async function saveDomainsToMongo(paths = [], server_ip) {
   }
 
   await Promise.all(insertPromises);
-  console.log(`domínios salvos: ${insertPromises.length}`);
+  console.log(`💾 Servidor ${server_ip} - salvos: ${insertPromises.length} domínios`);
 }
 
 export default saveDomainsToMongo;

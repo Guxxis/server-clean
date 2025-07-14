@@ -3,14 +3,12 @@ import getCustomers from '../src/services/crmConnector.js';
 
 async function crmEnricher() {
 
-    console.time('CRM Enricher');
-    console.log(`CRM Enricher > Iniciado`);
-
-    console.log(`Buscando Clientes...`);
+    console.time('🕙 CRM Process');
+    console.log(`🔍 Buscando Clientes no CRM...`);
     const customers = await getCustomers();
-    console.log(`Total de clientes ativos encontrados: ${customers.length}`);
+    console.log(`📋 Clientes ativos encontrados: ${customers.length}`);
 
-    console.log(`Atualizando dominios com CRM...`);
+    console.log(`🔄 Atualizando dominios com CRM...`);
     for (const customer of customers) {
         const crmDomain = customer.custom_fields.dominio?.value || '';
         const rootDomain = crmDomain.replace(/^www\./, '');
@@ -34,10 +32,10 @@ async function crmEnricher() {
             );
 
         } catch (erro) {
-            console.log(`Falha ao atualizar dominio > ${rootDomain}`);
+            console.log(`❗ Falha ao atualizar dominio > ${rootDomain}`);
         }
     }
-    console.timeEnd('CRM Enricher')
+    console.timeEnd('🕙 CRM Process')
 }
 
 export default crmEnricher;

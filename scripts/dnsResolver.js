@@ -29,12 +29,11 @@ async function checkDNS(domainObj) {
 
 async function dnsResolver() {
 
-    console.time('DNS Resolver');
-    console.log(`DNS Resolver > Iniciado`);
+    console.time('🕙 DNS Process');
 
     const domains = await domain.find({});
 
-    console.log(`Buscando DNS dos dominios...`);
+    console.log(`🔍 Buscando DNS dos dominios...`);
 
     const sslPromises = domains.map(domain => limit(() => checkDNS(domain)));
     const results = await Promise.all(sslPromises);
@@ -42,10 +41,9 @@ async function dnsResolver() {
     const totalOK = results.filter(r => r.status === 'ok').length;
     const totalErro = results.filter(r => r.status === 'erro').length;
 
-    console.log(`✅ Atualizados: ${totalOK}`);
-    console.log(`❌ Falhas: ${totalErro}`);
+    console.log(`✅ Atualizados: ${totalOK} | ❌ Falhas: ${totalErro}`);
 
-    console.timeEnd('DNS Resolver');
+    console.timeEnd('🕙 DNS Process');
 
 }
 

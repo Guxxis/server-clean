@@ -22,7 +22,7 @@ async function getActiveCustomers() {
             currentPage = res.data.next_page;
             
         } catch (err) {
-            console.error(`Erro ao buscar clientes na página ${currentPage}:`, err.message);
+            console.error(`❗ Erro ao buscar clientes na página ${currentPage}:`, err.message);
             break;
         }
     }
