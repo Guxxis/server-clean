@@ -11,9 +11,3 @@
 - /domains/toFixCrm
 - /domains/toFixDns
 - /domains/poteOuro
-
-
-### .ENV
-
-MONGO_URI=
-SENSEDATA_TOKEN=
