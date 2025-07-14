@@ -12,10 +12,12 @@ async function syncAll() {
     try {
 
         await fetchDomains();
-        await fetchCRM();
-        await updateDNS();
-        await updateSSL();
-        await fetchSuspended();
+        await Promise.all([
+            fetchCRM(),
+            updateDNS(),
+            updateSSL(),
+            fetchSuspended()
+        ]);
 
         console.log('Sincronização realizada com sucesso')
     } catch (erro) {
