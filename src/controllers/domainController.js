@@ -1,7 +1,9 @@
 import { domain } from '../models/Domain.js';
 
+const ips = ['169.57.141.90', '169.57.169.70', '169.57.169.72', '169.57.141.85', '169.57.169.85', '169.57.169.91', '169.57.141.94', '169.57.169.74', '169.57.169.83', '169.57.169.77', '169.57.169.73'];
 class domainsController {
-    static async getAll(req, res) {
+
+    static async dominiosTodos(req, res) {
         try {
             const domains = await domain.find();
             res.json(domains);
@@ -9,54 +11,93 @@ class domainsController {
             res.status(500).json({ error: error.message });
         };
     };
+
+    static async dominiosProducao(req, res) {
+        try {
+            const domains = await domain.find({
+                sense_status: true,
+                server_suspended: false
+            });
+            res.json(domains);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        };
+    };
+
+    static async dominiosSuspensos(req, res) {
+        try {
+            const domains = await domain.find({
+                sense_status: true,
+                server_suspended: true
+            });
+            res.json(domains);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        };
+    };
+
+    static async dominiosRemoverServidor(req, res) {
+        try {
+            const domains = await domain.find({
+                sense_status: false,
+                production_ip: { $nin: ips }
+            });
+            res.json(domains);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        };
+    };
+
+    static async dominiosMoverWeb(req, res) {
+        try {
+            const domains = await domain.find({
+                sense_status: false,
+                server_user: { $nin: ['admin'] },
+                production_ip: { $in: ips }
+            });
+            res.json(domains);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        };
+    };
+
+    static async dominiosMoverUser(req, res) {
+        try {
+            const domains = await domain.find({
+                sense_status: true,
+                server_user: 'admin',
+                production_ip: { $in: ips }
+            });
+            res.json(domains);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        };
+    };
+
+    static async dominiosCorrigirSenseIp(req, res) {
+        try {
+            const domains = await domain.find({
+                sense_status: true,
+                production_ip: { $in: ips },
+                $expr: {$ne: ['$production_ip', '$sense_ip']}
+            });
+            res.json(domains);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        };
+    };
+
+    static async dominiosCorrigirProductionIp(req, res) {
+        try {
+            const domains = await domain.find({
+                sense_status: true,
+                production_ip: { $nin: ips }
+            });
+            res.json(domains);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        };
+    };
 };
-
-// exports.creat = async (req, res) => {
-//     try {
-//         const domain = new domain(req.body);
-//         await domain.save();
-//         res.status(201).json(domain);
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     }
-// };
-
-// exports.getAll = async (req, res) => {
-//     try {
-//         const domains = await domain.find();
-//         res.json(domains);
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     };
-// }
-
-// exports.getId = async (req, res) => {
-//     try {
-//         const id = req.params.id;
-//         const domains = await domain.findById(id);
-//         res.json(domains);
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     };
-// }
-
-// exports.getDomain = async (req, res) => {
-//     const domain = req.query.domain;
-//     try {
-//         const domains = await domain.find({ server_domain: domain });
-//         res.json(domains);
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     };
-// }
-
-// exports.deleteAll = async (req, res) => {
-//     try {
-//         await domain.deleteMany({});
-//         res.status(200);
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     };
-// }
 
 export default domainsController;
