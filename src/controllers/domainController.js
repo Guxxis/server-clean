@@ -16,7 +16,7 @@ class domainsController {
         try {
             const domains = await domain.find({
                 sense_status: true,
-                sense_stage: {$nin: ['Monitoramento', 'Renovação']},
+                sense_stage: {$in: ['Monitoramento', 'Renovação']},
                 server_suspended: false
             });
             res.json(domains);
@@ -29,8 +29,7 @@ class domainsController {
         try {
             const domains = await domain.find({
                 sense_status: true,
-                sense_stage: {$nin: ['Monitoramento', 'Renovação']},
-                server_user: 'admin',
+                sense_stage: {$in: ['Monitoramento', 'Renovação']},
                 server_suspended: true
             });
             res.json(domains);
@@ -123,6 +122,20 @@ class domainsController {
                 server_suspended: false,
                 server_user: {$nin: ['admin']},
                 production_ip: { $in: ips }
+            });
+            res.json(domains);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        };
+    };
+
+    static async dominiosSslExpirando(req, res) {
+        try {
+            const domains = await domain.find({
+                sense_status: true,
+                server_user: {$nin: ['admin']},
+                production_ip: { $in: ips },
+                ssl_days: {$lt: 10}
             });
             res.json(domains);
         } catch (error) {

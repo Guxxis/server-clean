@@ -8,7 +8,7 @@ async function checkSuspension(domainDoc) {
     const domainRoot = domainDoc.server_domain;
 
     try {
-        const { data } = await axios.get(`http://${domainRoot}`, { timeout: 2000 });
+        const { data } = await axios.get(`http://${domainRoot}`, { timeout: 3000 });
         const isSuspended = typeof data === 'string' && data.toUpperCase().includes('SUSPENDED');
 
         await domain.updateOne(

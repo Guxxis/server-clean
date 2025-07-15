@@ -13,6 +13,7 @@ router.get('/domains/toMoveWeb', auth, domainController.dominiosMoverWeb);
 router.get('/domains/toMoveUser', auth, domainController.dominiosMoverUser);
 router.get('/domains/toFixCrm', auth, domainController.dominiosCorrigirSenseIp);
 router.get('/domains/toFixDns', auth, domainController.dominiosCorrigirProductionIp);
+router.get('/domains/sslExp', auth, domainController.dominiosSslExpirando);
 router.get('/domains/poteOuro', auth, domainController.dominiosPoteOuro);
 
 export default router;
