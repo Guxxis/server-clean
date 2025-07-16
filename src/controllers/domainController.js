@@ -102,7 +102,7 @@ class domainsController {
         try {
             const domains = await domain.find({
                 sense_status: true,
-                sense_stage: {$nin: ['Monitoramento', 'Renovação']},
+                sense_stage: {$in: ['Monitoramento', 'Renovação']},
                 production_ip: { $in: ips },
                 $expr: { $ne: ['$production_ip', '$sense_ip'] }
             });
@@ -116,7 +116,7 @@ class domainsController {
         try {
             const domains = await domain.find({
                 sense_status: true,
-                sense_stage: {$nin: ['Monitoramento', 'Renovação']},
+                sense_stage: {$in: ['Monitoramento', 'Renovação']},
                 production_ip: { $in: ips },
                 $expr: { $ne: ['$production_ip', '$server_ip'] }
             });
