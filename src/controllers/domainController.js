@@ -12,6 +12,16 @@ class domainsController {
         };
     };
 
+    static async dominiosUmServidor(req, res) {
+        const servidor = req.params.server
+        try {
+            const domains = await domain.find({server_ip: servidor});
+            res.json(domains);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        };
+    };
+
     static async dominiosProducao(req, res) {
         try {
             const domains = await domain.find({
@@ -75,12 +85,12 @@ class domainsController {
         };
     };
 
-    static async dominiosMoverUser(req, res) {
+    static async dominiosCorrigirProductionIp(req, res) {
         try {
             const domains = await domain.find({
                 sense_status: true,
-                server_user: 'admin',
-                production_ip: { $in: ips }
+                sense_stage: {$in: ['Monitoramento', 'Renovação']},
+                production_ip: { $nin: ips }
             });
             res.json(domains);
         } catch (error) {
@@ -102,12 +112,13 @@ class domainsController {
         };
     };
 
-    static async dominiosCorrigirProductionIp(req, res) {
+    static async dominiosCorrigirServerIp(req, res) {
         try {
             const domains = await domain.find({
                 sense_status: true,
                 sense_stage: {$nin: ['Monitoramento', 'Renovação']},
-                production_ip: { $nin: ips }
+                production_ip: { $in: ips },
+                $expr: { $ne: ['$production_ip', '$server_ip'] }
             });
             res.json(domains);
         } catch (error) {
@@ -133,7 +144,6 @@ class domainsController {
         try {
             const domains = await domain.find({
                 sense_status: true,
-                server_user: {$nin: ['admin']},
                 production_ip: { $in: ips },
                 ssl_days: {$lt: 10}
             });
