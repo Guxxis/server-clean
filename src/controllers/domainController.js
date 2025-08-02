@@ -1,6 +1,7 @@
 import { domain } from '../models/Domain.js';
+import servers from '../src/utils/servers.json' assert { type: 'json'};
 
-const ips = ['169.57.141.90', '169.57.169.70', '169.57.169.72', '169.57.141.85', '169.57.169.85', '169.57.169.91', '169.57.141.94', '169.57.169.74', '169.57.169.83', '169.57.169.77', '169.57.169.73'];
+const ips = servers.map(servers => servers.ip);
 class domainsController {
 
     static async dominiosTodos(req, res) {
