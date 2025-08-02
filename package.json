@@ -23,7 +23,9 @@
     "node-ssh": "^13.2.1",
     "p-limit": "^6.2.0",
     "ssh2": "^1.16.0",
-    "ssl-checker": "^2.0.10"
+    "ssl-checker": "^2.0.10",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

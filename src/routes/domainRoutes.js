@@ -4,7 +4,20 @@ import auth from '../middleware/auth.js';
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * /domains:
+ *   get:
+ *     summary: Lista todos os domínios
+ *     tags: [Domínios]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     responses:
+ *       200:
+ *         description: Lista de domínios
+ */
 router.get('/domains', auth, domainController.dominiosTodos);
+
 router.get('/domains/server/:server', auth, domainController.dominiosUmServidor);
 router.get('/domains/inProduction', auth, domainController.dominiosProducao);
 router.get('/domains/inSuspension', auth, domainController.dominiosSuspensos);
