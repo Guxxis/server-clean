@@ -1,5 +1,5 @@
 import { domain } from '../models/Domain.js';
-import servers from '../src/utils/servers.json' assert { type: 'json'};
+import servers from '../utils/servers.json' assert { type: 'json'};
 
 const ips = servers.map(servers => servers.ip);
 class domainsController {
