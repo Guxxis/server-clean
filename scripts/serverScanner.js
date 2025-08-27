@@ -1,7 +1,7 @@
 import saveDomains from '../src/services/saveDomains.js';
 import { domain } from '../src/models/Domain.js';
 import { NodeSSH } from 'node-ssh';
-import servers from '../src/utils/servers.json' assert { type: 'json'};
+import servers from '../src/utils/servers.json' with { type: 'json'};
 
 const ssh = new NodeSSH();
 
