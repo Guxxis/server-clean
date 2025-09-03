@@ -7,20 +7,24 @@ const limit = pLimit(10);
 async function checkSuspension(domainDoc) {
     const domainRoot = domainDoc.server_domain;
 
-    try {
-        const { data } = await axios.get(`http://${domainRoot}`, { timeout: 3000 });
-        const isSuspended = typeof data === 'string' && data.toUpperCase().includes('SUSPENDED');
+    const suspended = await axios.get(`https://www.${domainRoot}`)
+        .then(response => {
+            const isSuspended = typeof response.data === 'string' && response.data.toUpperCase().includes('SUSPENDED');
+            return isSuspended;
+        })
+        .catch(erro => {
+            const statusCode = erro.status;
+            const isSuspended = statusCode === 302 ? true : false;
+            if(isSuspended){console.log(domainRoot + " - Status: " + statusCode)}
+            return isSuspended;
+        });
 
-        await domain.updateOne(
-            { server_domain: domainRoot },
-            { $set: { server_suspended: isSuspended } }
-        );
-    } catch (err) {
-        await domain.updateOne(
-            { server_domain: domainRoot },
-            { $set: { server_suspended: false } }
-        );
-    }
+
+    await domain.updateOne(
+        { server_domain: domainRoot },
+        { $set: { server_suspended: suspended } }
+    );
+
 }
 
 async function suspensionChecker() {
