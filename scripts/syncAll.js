@@ -16,10 +16,10 @@ async function syncAll() {
         console.log('😌 Novo banco de dados criado com sucesso!')
         console.log('😪 Aguarde o banco ser alimentado com outras informações...')
         await Promise.all([
-            fetchCRM(),
+            // fetchCRM(),
             updateDNS(),
-            updateSSL(),
-            fetchSuspended()
+            updateSSL()
+            // fetchSuspended()
         ]);
 
         console.log('😆 Server Clean Scanner processado com sucesso!!')
